@@ -1,0 +1,261 @@
+<html>
+  <!--
+    Copyright (c) 2013 Anthony Bau
+    MIT License: http://opensource.org/licenses/MIT
+  -->
+  <head>
+    <style>
+      body {
+        padding-top:40px;
+        overflow:hidden;
+      }
+      #top {
+        height:30%;
+      }
+      #main {
+        float:left;
+        border:1px solid #000;
+        padding:25px;
+        border-radius: 5px;
+        font-family:arial;
+        overflow:hidden;
+        height:150px;
+      }
+      #main_header {
+        border-bottom:1px solid goldenrod;
+        margin-left:-10px;
+        margin-bottom:20px;
+        font-family:arial;
+        font-size:30px;
+        height:30px;
+      }
+      #panel {
+        padding:10px;
+        float:right;
+        border:1px solid #000;
+        border-radius: 5px;
+        font-family:arial;
+        overflow:auto;
+        height:180px;
+      }
+      #bar {
+        padding:2px;
+        background-color:#800;
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:30px;
+      }
+      #seal {
+        margin-top:2px;
+        margin-bottom:auto;
+        margin-left:5px;
+        height:25px;
+        width:36px;;
+      }
+      #bottom {
+        margin-top: 20px;
+        height:100%;
+        border:1px solid #000;
+        border-radius:5px;
+        overflow:auto;
+      }
+      .item {
+        font-family:arial;
+        border-bottom: 1px solid #000;
+        padding:5px;
+        cursor:hand;
+      }
+      #name {
+        border:1px solid black;
+        border-radius:2px;
+        width:100%;
+        height:20px;
+        color:#888;
+      }
+      #description {
+        width:100%;
+        margin-top:10px;
+        height:115px;
+        border-radius: 2px;
+        font-family:arial;
+        color:#888;
+      }
+      #submit_button {
+        width:100%;
+        background-color:#aaa;
+        margin-top:10px;
+        height:25px;
+        font-family:arial;
+        font-size:18px;
+        cursor:hand;
+        border-radius:5px;
+        border:none;
+      }
+      #submit_button:hover {
+        background-color:#888;
+      }
+      #upvote, #downvote {
+        height:25px;
+        border:none;
+        border-radius:4px;
+        cursor:hand;
+        font-family:arial;
+        font-size:18px;
+        color:#fff;
+      }
+      #votey {
+        height:20px;
+      }
+      #main_body {
+        height:78px;
+        overflow:auto;
+      }
+      #upvote {
+        background-color:#080;
+      }
+      #upvote:hover {
+        background-color:#050;
+      }
+      #downvote {
+        background-color:#800
+      }
+      #downvote:hover {
+        background-color:#500;
+      }
+      .item:hover {
+        background: #aaa;
+      }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+      $(function() {
+        $(window).resize(function() {
+          var bottom = $("#bottom"),
+              top = $("#top"),
+              main = $("#main"),
+              panel = $("#panel");
+          top.height(main.outerHeight());
+          main.width(0.7*top.width() - 52 - 5);
+          panel.width(0.3*top.width() - 22 - 5);
+          bottom.height(window.innerHeight - bottom.offset().top - 30);
+        }).resize();
+        
+        function reload() {
+          $("#bottom").html("");
+          $.ajax({
+            url:"/load",
+            dataType:"json"
+          }).done(function(data) {
+            var bottom = $("#bottom");
+            for (var i = 0; i < data.length; i += 1) {
+              bottom.append($("<div class=\"item\"></div>")
+                .text(data[i][2])
+                .attr({"rowid":data[i][0],"timestamp":data[i][1],"description":data[i][3], "upvotes":data[i][4], "downvotes":data[i][5]})
+                .click(function() {
+                  j_this = $(this);
+                  $("#main").attr({"rowid":j_this.attr("rowid"),"timestamp":j_this.attr("timestamp")});
+                  $("#main_header").text(j_this.text());
+                  $("#main_body").text(j_this.attr("description"));
+                  $("#upvote_number").text(j_this.attr("upvotes"));
+                  $("#downvote_number").text(j_this.attr("downvotes"));
+              }));
+              $(".item").first().click();
+            }
+          });
+        }
+        
+        reload();
+        
+        $("#name, #description").each(function() { this.grayed = true});
+
+        $("#name").focus(function() {
+          j_this = $(this);
+          if (j_this[0].grayed === true) {
+            j_this[0].grayed = false;
+            j_this.css("color","#000");
+            j_this.val("");
+          }
+        }).blur(function() {
+          j_this = $(this);
+          if (j_this.val() === "") {
+            j_this[0].grayed = true;
+            j_this.css("color", "#888");
+            j_this.val("title");
+          }
+        });
+        $("#description").focus(function() {
+          j_this = $(this);
+          if (j_this[0].grayed === true) {
+            j_this[0].grayed = false;
+            j_this.css("color","#000");
+            j_this.val("");
+          }
+        }).blur(function() {
+          j_this = $(this);
+          if (j_this.val() === "") {
+            j_this[0].grayed = true;
+            j_this.css("color", "#888");
+            j_this.val("description");
+          }
+        });
+        $("#submit_button").click(function() {
+          $.ajax({
+            "url":"/submit?name=" + encodeURIComponent($("#name").val()) + "&description=" + encodeURIComponent($("#description").val())
+          }).done(function() {
+            reload();
+            $("#name, #description").val("");
+            $("#name, #description").blur();
+          });
+        });
+        $("#downvote").click(function() {
+          $.ajax({
+            url: "/downvote?rowid=" + $("#main").attr("rowid")
+          }).done(function() {
+            reload();
+            $("#downvote_number").text((Number($("#downvote_number").text())+1));
+          });
+        });
+        $("#upvote").click(function() {
+          $.ajax({
+            url: "/upvote?rowid=" + $("#main").attr("rowid")
+          }).done(function() {
+            reload();
+            $("#upvote_number").html((Number($("#upvote_number").text())+1));
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="bar">
+      <img src="/seal" id="seal"/>
+    </div>
+    <div id = "top">
+      <div id = "main">
+        <div id="main_header">
+        </div>
+        <div id="main_body">
+        </div>
+        <div id="votey">
+          <button id="upvote">&uarr; <span id="upvote_number"></span></button>
+          <button id="downvote">&darr; <span id="downvote_number"></span></button>
+        </div>
+      </div>
+      <div id = "panel">
+        <div>
+          <input id="name" value="title"/>
+        </div>
+        <div>
+          <textarea id="description">description</textarea>
+        </div>
+        <button id="submit_button">
+          submit new idea
+        </button>
+      </div>
+    </div>
+    <div id = "bottom">
+    </div>
+  </body>
+</html>
