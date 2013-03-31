@@ -38,13 +38,13 @@ def upvote(n):
 
 def downvote(n):
   c = db.cursor()
-  c.execute("UPDATE ideas SET downvotes = downvotes + 1 WHERE rowid = ?", (n,))
+  c.execute("UPDATE ideas SET downvotes = downvotes + 1, timestamp=DATETIME('now') WHERE rowid = ?", (n,))
   db.commit()
 
 def addCode(n, content):
   print content
   c = db.cursor()
-  c.execute("UPDATE ideas SET codefiles = codefiles || ';' || ? WHERE rowid = ?", (content,n))
+  c.execute("UPDATE ideas SET codefiles = codefiles || ';' || ?, timestamp=DATETIME('now') WHERE rowid = ?", (content,n))
   db.commit()
 
 def run(server = BaseHTTPServer.HTTPServer,
