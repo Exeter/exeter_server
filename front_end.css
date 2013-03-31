@@ -1,0 +1,280 @@
+/*
+ * Copyright (c) 2013 Anthony Bau
+ * MIT License: http://opensource.org/licenses/MIT
+*/
+body {
+  padding-top:40px;
+  overflow:hidden;
+}
+#main, #bottom, #panel {
+  background-color:#fff;
+}
+#top {
+  height:30%;
+}
+#main {
+  float:left;
+  border:1px solid #000;
+  padding:25px;
+  border-radius: 5px;
+  font-family:arial;
+  overflow:visible;
+  height:150px;
+}
+#main_header {
+  border-bottom:1px solid goldenrod;
+  margin-left:-10px;
+  margin-bottom:20px;
+  font-family:arial;
+  font-size:30px;
+  height:30px;
+}
+#panel {
+  padding:10px;
+  float:right;
+  border:1px solid #000;
+  border-radius: 5px;
+  font-family:arial;
+  overflow:auto;
+  height:180px;
+}
+#bar {
+  padding:0px;
+  background-color:#800;
+  background:-webkit-linear-gradient(top, #a22, #700);
+  background:-moz-linear-gradient(top, #a22, #700);
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:30px;
+  line-height:30px;
+}
+#seal {
+  margin-top:2px;
+  margin-bottom:auto;
+  margin-left:5px;
+  height:25px;
+  width:36px;;
+}
+#bottom {
+  margin-top: 20px;
+  height:100%;
+  border:1px solid #000;
+  border-radius:5px;
+}
+#items {
+  overflow:auto;
+}
+.item {
+  font-family:arial;
+  border-bottom: 1px solid #000;
+  padding:5px;
+  cursor:pointer;
+  cursor:hand;
+  height:20px;
+}
+#name {
+  border:1px solid black;
+  border-radius:2px;
+  width:100%;
+  height:20px;
+  color:#888;
+}
+.timestamp_readable {
+  margin-right:5px;
+  color:#888;
+  float:right;
+  height:10px;
+}
+#description {
+  resize:none;
+  width:100%;
+  margin-top:10px;
+  height:115px;
+  border-radius: 2px;
+  border:1px solid #888;
+  font-family:arial;
+  color:#888;
+}
+#submit_button {
+  width:100%;
+  background-color:#aaa;
+  margin-top:10px;
+  height:25px;
+  font-family:arial;
+  font-size:18px;
+  cursor:pointer;
+  cursor:hand;
+  border-radius:3px;
+  border:none;
+}
+#submit_button:hover {
+  background-color:#888;
+}
+#upvote, #downvote {
+  height:25px;
+  border:none;
+  border-radius:3px;
+  cursor:pointer;
+  cursor:hand;
+  font-family:arial;
+  font-size:18px;
+  color:#fff;
+}
+#votey {
+  height:20px;
+}
+#main_body {
+  height:78px;
+  overflow:auto;
+}
+#upvote {
+  background-color:#080;
+}
+#upvote:hover {
+  background-color:#050;
+}
+#downvote {
+  background-color:#800
+}
+#downvote:hover {
+  background-color:#500;
+}
+.toolbar {
+  padding-left:5px;
+  padding-right:5px;
+  color:white;
+  font-family:arial;
+  font-size:18px;
+  height:100%;
+  cursor:pointer;
+  cursor:hand;
+  float:left;
+  width:auto;
+}
+.order {
+  font-size:18px;
+  padding-left:5px;
+  padding-right:5px;
+  height:30px;
+  float:left;
+  width:auto;
+  cursor:pointer;
+  cursor:hand;
+  line-height:30px;
+}
+.order:hover {
+  background-color:#811;
+}
+#order_by {
+  height:30px;
+  width:100%;
+  border-bottom: 1px solid #000;
+  font-family:arial;
+  background-color:#922;
+  background:-webkit-linear-gradient(top, #a22, #700);
+  background:-moz-linear-gradient(to bottom, #a22, #700);
+}
+#sort {
+  background:#300;
+  color:#fff;
+  float:left;
+  height:100%;
+  padding-left:5px;
+  padding-right:5px;
+  width:auto;
+  line-height:30px;
+  font-size:18px;
+}
+.cursored {
+  background-color:#aaa;
+}
+.toolbar:hover {
+  background-color:#500;
+}
+.toolbar_link {
+  color:inherit;
+  text-decoration:none;
+}
+.item:hover {
+  background: #aaa;
+}
+#before_upload {
+  float:left;
+}
+#upload {
+  float:left;
+}
+.qq-uploader {
+  background-color:#333;
+  height:25px;
+  font-family:arial;
+  font-size:18px;
+  border-radius:3px;
+  color:#fff;
+  padding-left:5px;
+  padding-right:5px;
+  margin-left:5px;
+  margin-right:5px;
+}
+.qq-uploader:hover {
+  background-color:#222;
+}
+.qq-upload-button {
+  height:100%;
+  line-height:25px;
+}
+#prototypes {
+  height:25px;
+  overflow:hidden;
+  border:1px solid #000;
+  border-radius:3px;
+  background-color:#fff;
+  margin-left:5px;
+}
+#prototypes:hover {
+  height:auto;
+  max-height:500px;
+}
+.selected_order {
+  background-color:#500;
+}
+.prototype_link {
+  display:block;
+  height:25px;
+  line-height:25px;
+  font-family:arial;
+  padding-left:5px;
+}
+.prototype_link:hover {
+  background-color:#888; 
+}
+.qq-drop-processing, .qq-upload-list {
+  display:none;
+}
+.upvoted_item, .downvoted_item, .neutral_item {
+  padding:5px;
+  float:right;
+  margin-left:5px;
+  border:none;
+  border-radius:3px;
+  height:10px;
+  margin-bottom:auto;
+  margin-top:auto;
+  line-height:10px;
+  width:auto;
+}
+.upvoted_item {
+  background-color:#2b2;
+}
+.spacer {
+  line-height:25px;
+  padding-left:5px;
+}
+.downvoted_item {
+  background-color:#b22;
+}
+.neutral_item {
+  background-color:#999;
+}
