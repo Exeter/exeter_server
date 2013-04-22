@@ -172,7 +172,7 @@ int main(int n, char* args[], char** env) {
     sqlite3* db;
     sqlite3_open("ideas.db", &db);
     if (path_length == 0 || path[0] == "") {
-      cout << "Refresh: 0; url=/dynamic/Exeter_Server/server/index.html" << endl;
+      cout << "Refresh: 0; url=/cgi-bin/ideas/server/index.html" << endl;
       cout << "Content-type: text/html" << endl << endl;
     }
     else if (path[0] == "index.html") {
