@@ -190,9 +190,11 @@ body {
 .cursored {
   background-color:#aaa;
 }
-.toolbar:hover {
+/*.toolbar:hover {
   background-color:#500;
 }
+Toolbar is now unecessary
+*/
 .toolbar_link {
   color:inherit;
   text-decoration:none;
