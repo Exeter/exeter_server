@@ -163,7 +163,7 @@ $(function() {
   $("#order_time").click(function() {
     $(".selected_order").removeClass("selected_order");
     $(this).addClass("selected_order");
-    order = "timestamp";
+    order = "timestamp DESC";
     reload();
   });
   $("#order_votes").click(function() {
