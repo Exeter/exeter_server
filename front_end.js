@@ -53,7 +53,6 @@ $(function() {
 
   function reload() {
     $(".item").remove();
-    console.log(order);
     $.ajax({
       url:"/load?order_by=" + encodeURIComponent(order),
       dataType:"json"
@@ -65,12 +64,12 @@ $(function() {
           .attr({"rowid":data[i][0],"timestamp":data[i][1],"description":data[i][3], "upvotes":data[i][4], "downvotes":data[i][5],"codefiles":data[i][6], "title":data[i][2]})
           .append($("<div></div>").text(Math.abs(data[i][4] - data[i][5])).addClass((data[i][4] - data[i][5] > 0 ? "upvoted_item" : (data[i][4] === data[i][5] ? "neutral_item" : "downvoted_item"))))
           .append($("<div></div>").text(toReadable(data[i][1])).addClass("timestamp_readable"))
+          .append($("<div></div>").addClass("prototype_icon").css("display",(data[i][6].length === 0 ? "none" : "block")).attr("title","This idea has a proof-of-concept."))
           .click(function() {
             var j_this = $(this),
                 j_links = $("#prototypes"),
                 codefiles = j_this.attr("codefiles").split(";");
             codefiles.shift();
-            console.log(codefiles);
             $(".prototype_link, .spacer").remove();
             $(".cursored").removeClass("cursored");
             j_this.addClass("cursored");
@@ -83,7 +82,7 @@ $(function() {
               j_links.append($("<div class=\"spacer\"></div>").text("no proof-of-concept").css("height","25px"));
             }
             for (var i = 0; i < codefiles.length; i += 1) {
-              j_links.append($("<div class=\"prototype\"><a class=\"prototype_link\" href=\"/file/" + codefiles[i] + "\">" + codefiles[i].split("/")[2] + "</a></div>"));
+              j_links.append($("<div class=\"prototype\"><a class=\"prototype_link\" target=\"_blank\" href=\"/file/" + codefiles[i] + "\">" + codefiles[i].split("/")[2] + "</a></div>"));
             }
           });
         if (new_element.attr("rowid") == $("#main").attr("rowid")) {
@@ -178,6 +177,12 @@ $(function() {
     order = "name";
     reload();
   });
+  $("#order_code").click(function() {
+    $(".selected_order").removeClass("selected_order");
+    $(this).addClass("selected_order");
+    order = "code";
+    reload();
+  });
   var uploader = $("#upload").fineUploader({
     dragAndDrop:{
       disableDefaultDropzone:true
@@ -195,6 +200,5 @@ $(function() {
       endpoint:"/save"
     }
   }).on("complete",reload);
-  console.log(uploader);
 });
 

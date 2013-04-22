@@ -265,6 +265,9 @@ body {
   line-height:10px;
   width:auto;
 }
+#upvote:active, #downvote:active {
+  background-color:#888;
+}
 .upvoted_item {
   background-color:#2b2;
 }
@@ -277,4 +280,13 @@ body {
 }
 .neutral_item {
   background-color:#999;
+}
+.prototype_icon {
+  background-color:#999;
+  border:none;
+  border-radius:3px;
+  height:20px;
+  width:20px;
+  margin-right:10px;
+  float:right;
 }
