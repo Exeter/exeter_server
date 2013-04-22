@@ -42,7 +42,7 @@ $(function() {
     }
     else if (elapse >= 3600) {
       var time = Math.floor(elapse / 3600);
-      return time + (time === 1 ? "hour ago" : " hours ago");
+      return time + (time === 1 ? " hour ago" : " hours ago");
     }
     else if (elapse > 60) {
       var time = Math.floor(elapse / 60);
@@ -54,10 +54,11 @@ $(function() {
   function reload() {
     $(".item").remove();
     $.ajax({
-      url:"/load?order_by=" + encodeURIComponent(order),
+      url:"load?order_by=" + encodeURIComponent(order),
       dataType:"json"
-    }).done(function(data) {
+    }).done(function(obj) {
       var bottom = $("#items");
+      var data = obj.posts;
       for (var i = 0; i < data.length; i += 1) {
         var new_element = $("<div class=\"item\"></div>")
           .text(data[i][2])
@@ -82,7 +83,7 @@ $(function() {
               j_links.append($("<div class=\"spacer\"></div>").text("no proof-of-concept").css("height","25px"));
             }
             for (var i = 0; i < codefiles.length; i += 1) {
-              j_links.append($("<div class=\"prototype\"><a class=\"prototype_link\" target=\"_blank\" href=\"/file/" + codefiles[i] + "\">" + codefiles[i].split("/")[2] + "</a></div>"));
+              j_links.append($("<div class=\"prototype\"><a class=\"prototype_link\" target=\"_blank\" href=\"file/" + codefiles[i] + "\">" + codefiles[i].split("/")[2] + "</a></div>"));
             }
           });
         if (new_element.attr("rowid") == $("#main").attr("rowid")) {
@@ -135,7 +136,7 @@ $(function() {
   $("#submit_button").click(function() {
     if (!$("#name")[0].grayed) {
       $.ajax({
-        "url":"/submit?name=" + encodeURIComponent($("#name").val()) + "&description=" + encodeURIComponent($("#description").val())
+        "url":"submit?name=" + encodeURIComponent($("#name").val()) + "&description=" + encodeURIComponent($("#description").val())
       }).done(function() {
         reload();
         $("#name, #description").val("");
@@ -145,7 +146,7 @@ $(function() {
   });
   $("#downvote").click(function() {
     $.ajax({
-      url: "/downvote?rowid=" + $("#main").attr("rowid")
+      url: "downvote?rowid=" + $("#main").attr("rowid")
     }).done(function() {
       reload();
       $("#downvote_number").text((Number($("#downvote_number").text())+1));
@@ -153,7 +154,7 @@ $(function() {
   });
   $("#upvote").click(function() {
     $.ajax({
-      url: "/upvote?rowid=" + $("#main").attr("rowid")
+      url: "upvote?rowid=" + $("#main").attr("rowid")
     }).done(function() {
       reload();
       $("#upvote_number").html((Number($("#upvote_number").text())+1));
@@ -197,7 +198,7 @@ $(function() {
         }
       },
       paramsInBody:false,
-      endpoint:"/save"
+      endpoint:"save"
     }
   }).on("complete",reload);
 });
